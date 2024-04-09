@@ -7,19 +7,21 @@ import matplotlib.pyplot as plt
 
 R, gravity, Fr = 1.99, True, 1
 
-x_grid = np.load('velocity_results/alpha04_2D_x.npy')
-y_grid = np.load('velocity_results/alpha04_2D_y.npy')
-Ux = np.load('velocity_results/alpha04_2D_Ux.npy')
-Uy = np.load('velocity_results/alpha04_2D_Uy.npy')
-dUxdx = np.load('velocity_results/alpha04_2D_dUxdx.npy')
-dUxdy = np.load('velocity_results/alpha04_2D_dUxdy.npy')
-dUydx = np.load('velocity_results/alpha04_2D_dUydx.npy')
-dUydy = np.load('velocity_results/alpha04_2D_dUydy.npy')
-geometry = np.load('velocity_results/alpha04_2D_geometry.npy', allow_pickle=True)
+path = 'velocity_results/alpha08_2D_'
+
+x_grid = np.load(path + 'x.npy')
+y_grid = np.load(path + 'y.npy')
+Ux = np.load(path + 'Ux.npy')
+Uy = np.load(path + 'Uy.npy')
+dUxdx = np.load(path + 'dUxdx.npy')
+dUxdy = np.load(path + 'dUxdy.npy')
+dUydx = np.load(path + 'dUydx.npy')
+dUydy = np.load(path + 'dUydy.npy')
+geometry = np.load(path + 'geometry.npy', allow_pickle=True)
 x_core, y_core, y_core_lower, x_ring, y_ring = geometry.T
 
 # load interpolation functions
-with open('velocity_results/interp_functions_alpha04_2D.pkl', 'rb') as f:
+with open(path + 'interp_functions.pkl', 'rb') as f:
     interp_Ux, interp_Uy, interp_dUxdx, interp_dUxdy, interp_dUydx, interp_dUydy = pickle.load(f)
 
 
@@ -52,7 +54,7 @@ def solve_ivp_active(args):
 
 def advect_bubbles(bubbles_df_to_advect, t0, tf, plot_path = False, this_ax = None, color=None):
     initial_states = bubbles_df_to_advect[:, 1:6]
-    t_span = np.linspace(t0, tf, 1000)
+    t_span = np.linspace(t0, tf, 8000)
 
     n_proc = 12
 
