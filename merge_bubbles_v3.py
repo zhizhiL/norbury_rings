@@ -3,10 +3,14 @@ import matplotlib.pyplot as plt
 import scipy as sp
 import matplotlib.patches as patches
 
+
+
+
+
 def merge_package(Bubbles_df_before_merge: np.ndarray, advected_states: np.ndarray, 
                   gridA_size: tuple, gridB_size: tuple, 
                   boundaries: tuple, cell_size: tuple, R_collision: float, st_lim: float,
-                  merge_method:str, a: float, timeNow: float, this_ax , color) -> np.ndarray:
+                  merge_method:str, timeNow: float, this_ax , color) -> np.ndarray:
     
     """
         Merge bubbles that are close to each other
@@ -227,31 +231,17 @@ def merge_package(Bubbles_df_before_merge: np.ndarray, advected_states: np.ndarr
 
         update_bubbles_df = Bubbles_df_new[~np.isnan(Bubbles_df_new[:, 1])]
 
-        # # plot the bubbles only at specific times
-        # if abs(timeNow- round(timeNow)) < 1e-2:
-        #     fig, ax = plt.subplots()
-        #     all_stokes = update_bubbles_df[:, 5]
-        #     # marker_size = (all_stokes.max() - all_stokes.min()) / 199 * (all_stokes - all_stokes.min()) + 1
-        #     marker_size = update_bubbles_df[:, 5] * 199/1.4 - 185/14
+        # plot the updated bubbles
+        path = 'velocity_results/alpha04_2D_'
+        geometry = np.load(path + 'geometry.npy')
+        x_core, y_core, y_core_lower, x_ring, y_ring = geometry.T
 
-        #     ax.scatter(update_bubbles_df[:, 1], update_bubbles_df[:, 2], s=marker_size, marker='o')
-        #     circle = patches.Circle((0, 0), radius=a, fill=False, color='r')
-        #     ax.add_patch(circle)
-        #     ax.set_xlim([xl, xr])
-        #     ax.set_ylim([yd, yu])
-        #     ax.set_aspect('equal')
-        #     ax.set_title('Coalescence at t = {}'.format(timeNow))
-        #     plt.show()
-        
-        # if this_ax == None:
-        #     fig, this_ax = plt.subplots()
-        
         fig, ax = plt.subplots()
         this_ax = ax
         marker_size = (update_bubbles_df[:, 5] * 199/1.4 - 185/14)/10
         this_ax.scatter(update_bubbles_df[:, 1], update_bubbles_df[:, 2], s=marker_size**0.5, marker='o', c=color, linewidths=0)
-        circle = patches.Circle((0, 0), radius=a, fill=False, color='r')
-        this_ax.add_patch(circle)
+        this_ax.plot(x_core, y_core, 'k', x_core, y_core_lower, 'k',lw=1, alpha=0.6)
+        this_ax.plot(x_ring, y_ring, 'k', lw=1, alpha=0.6)
         this_ax.set_xlim([xl, xr])
         this_ax.set_ylim([yd, yu])
         this_ax.set_aspect('equal')
