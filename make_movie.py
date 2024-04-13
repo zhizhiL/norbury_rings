@@ -36,7 +36,8 @@ def move_to_subfoler(parent_dir, target, N_realisation):
 
 target = 'frame'
 N_realisation = 1
-frame_folder = 'influx_random_sims_contInjection' 
+frame_folder = 'temp_3D' 
 output_path = frame_folder + '/output_' + target +'_realisation_' + str(N_realisation)+ '.mp4'
-create_movie_from_frames(target, frame_folder + '/temp', output_path)
+# create_movie_from_frames(target, frame_folder + '/temp', output_path)
+create_movie_from_frames(target, frame_folder, output_path)
 move_to_subfoler(frame_folder + '/temp', target, N_realisation)
