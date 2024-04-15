@@ -68,7 +68,7 @@ def solve_ivp_active(args):
     x0, y0, z0, vx0, vy0, vz0, St = q0
     sol = sp.integrate.solve_ivp(active_tracer_traj, [t_span[0], t_span[-1]], [x0, y0, z0, vx0, vy0, vz0], method='RK45', t_eval=t_span, vectorized=True)
 
-    return sol.y[0], sol.y[1], sol.y[2], sol.y[3], sol.y[4], sol.y[5]
+    return sol.y[0][-1], sol.y[1][-1], sol.y[2][-1], sol.y[3][-1], sol.y[4][-1], sol.y[5][-1]
 
 
 def advect_bubbles(bubbles_df_to_advect, t0, tf, plot_path = False, this_ax = None, color=None):
@@ -85,7 +85,7 @@ def advect_bubbles(bubbles_df_to_advect, t0, tf, plot_path = False, this_ax = No
 
     if plot_path:
         plt.sca(ax=this_ax)
-        plt.scatter(res_array[:, 0, :].T, res_array[:, 1, :].T, res_array[:, 2, :].T, color=color,linewidths=0)
+        plt.scatter(res_array[:, 0].T, res_array[:, 1].T, res_array[:, 2].T, color=color,linewidths=0)
         plt.axis('equal')
         plt.xlim(-2, 2)
         plt.ylim(-2, 2)
