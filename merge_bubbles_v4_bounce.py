@@ -264,7 +264,7 @@ def merge_package(Bubbles_df_before_merge: np.ndarray, advected_states: np.ndarr
 
                          
                     # if both small, merge (already within merging distance)
-                    elif (bubble[5] <= st_lim) and (Bubbles_df_new[np.where(Bubbles_df_new[:, 0] == partner_ID)[0][0], 5] <= st_lim):
+                    elif (bubble[5] <= st_lim) and (partner_row[5] <= st_lim):
                         # now perform the merging
                         slaved = bubble[0] < partner_ID
 
