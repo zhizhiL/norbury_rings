@@ -1,13 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
-import matplotlib.patches as patches
+# import matplotlib.patches as patches
+import matplotlib.colors as mcolors
 
 # load geometry files
 path = 'velocity_results/alpha04_2D_'
 
 geometry = np.load(path + 'geometry.npy', allow_pickle=True)
 x_core, y_core, y_core_lower, x_ring, y_ring = geometry.T
+
+donuts = np.load('plotting_donuts/alpha04_3D_core.npy', allow_pickle=True)
+cross_section_x, cross_section_y, cross_section_z = donuts.T
 
 '''
 This version considers bouncing:
@@ -297,19 +301,21 @@ def merge_package(Bubbles_df_before_merge: np.ndarray, advected_states: np.ndarr
         update_bubbles_df = Bubbles_df_new[~np.isnan(Bubbles_df_new[:, 1])]
 
         # Plotting
-        fig, ax = plt.subplots()
+        fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         marker_size =  (update_bubbles_df[:, 7] * 199/1.4 - 185/14)/10
         # inside = update_bubbles_df[:, 1] **2 + update_bubbles_df[:, 2] **2 + update_bubbles_df[:, 3] **2 < 4
         inside = np.ones_like(update_bubbles_df[:, 1], dtype=bool)
 
+        ax.scatter(cross_section_x, cross_section_y, cross_section_z, c=mcolors.CSS4_COLORS['paleturquoise'], s=0.1, alpha=0.1)
+
         ax.scatter3D(update_bubbles_df[inside, 1], update_bubbles_df[inside, 2], update_bubbles_df[inside, 3], 
                    s=marker_size[inside]**0.5, c='k', marker='o', alpha=0.5, linewidths=0)
 
-        ax.scatter3D(x_core, np.zeros_like(x_core), y_core, c='r', s=10, alpha=0.3)
-        ax.scatter3D(x_core, np.zeros_like(x_core), y_core_lower, c='r', s=10, alpha=0.3)
-        ax.scatter3D(x_ring, np.zeros_like(x_ring), y_ring, c='b', s=10, alpha=0.3)
-
+        ax.scatter3D(x_core, np.zeros_like(x_core), y_core, c=mcolors.CSS4_COLORS['paleturquoise'], s=0.5, alpha=0.2)
+        ax.scatter3D(x_core, np.zeros_like(x_core), y_core_lower, c=mcolors.CSS4_COLORS['paleturquoise'], s=0.5, alpha=0.2)
+        # ax.scatter3D(x_ring, np.zeros_like(x_ring), y_ring, c='b', s=10, alpha=0.3)
+        ax.grid(False)
         ax.set_xlim(-2, 2)
         ax.set_ylim(-2, 2)
         ax.set_zlim(-2, 2)

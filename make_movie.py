@@ -23,7 +23,7 @@ def move_to_subfoler(parent_dir, target, N_realisation):
     file_pattern = os.path.join(parent_dir, target + '_*.npy')
     file_list = glob.glob(file_pattern)
 
-    child_dir = os.path.join(parent_dir+'/..', 'N_realisation_' + str(N_realisation))
+    child_dir = os.path.join(parent_dir+'/..', 'N_realisation_' + str(N_realisation) + model)
     os.makedirs(child_dir, exist_ok=True)
 
     for file in file_list:
@@ -34,10 +34,11 @@ def move_to_subfoler(parent_dir, target, N_realisation):
 
 
 
-target = 'timestep'
-N_realisation = 3
+target = 'frame'
+model = '_bounce'
+N_realisation = 5
 frame_folder = 'influx_random_sims_3D/temp' 
-output_path = frame_folder + '/output_' + target +'_realisation_' + str(N_realisation)+ '.mp4'
+output_path = frame_folder + '/output_' + target +'_realisation_' + str(N_realisation)+ model + '.mp4'
 # create_movie_from_frames(target, frame_folder + '/temp', output_path)
 create_movie_from_frames(target, frame_folder, output_path)
-move_to_subfoler(frame_folder + '/temp', target, N_realisation)
+move_to_subfoler('influx_random_sims_3D/temp', target, N_realisation)
