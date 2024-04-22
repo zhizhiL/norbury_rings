@@ -5,9 +5,9 @@ from scipy.integrate import solve_ivp
 from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
-R, gravity, Fr = 1.99, True, 0.5
+R, gravity, Fr = 1.99, True, 4
 
-path = 'velocity_results/alpha04_2D_'
+path = 'velocity_results/alpha1.4_2D_'
 
 x_grid = np.load(path + 'x.npy')
 r_grid = np.load(path + 'y.npy')
