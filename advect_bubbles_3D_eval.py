@@ -168,3 +168,47 @@ def advect_bubbles_res(bubbles_df_to_advect, t0, tf, plot_path = False, this_ax 
         plt.show()
 
     return res_array
+
+
+def solve_ivp_active_pool(args):
+
+    def active_tracer_traj_pool(t,Z):
+        xp, yp, zp, dxpdt, dypdt, dzpdt = Z
+
+        ddxpdtt = R*(- dxpdt)/St 
+        ddypdtt = R*(- dypdt)/St 
+        ddzpdtt = R*(- dzpdt)/St - gravity * (1-3*R/2) / (Fr**2)
+
+        return [dxpdt, dypdt, dzpdt, ddxpdtt, ddypdtt, ddzpdtt]
+    
+    q0, t_span = args
+    x0, y0, z0, vx0, vy0, vz0, St = q0
+    sol = sp.integrate.solve_ivp(active_tracer_traj_pool, [t_span[0], t_span[-1]], [x0, y0, z0, vx0, vy0, vz0], method='RK45', t_eval=t_span, vectorized=True)
+
+    return sol.y[0][-1], sol.y[1][-1], sol.y[2][-1], sol.y[3][-1], sol.y[4][-1], sol.y[5][-1]
+
+
+def advect_bubbles_pool(bubbles_df_to_advect, t0, tf, plot_path = False, this_ax = None, color=None):
+    initial_states = bubbles_df_to_advect[:, 1:8]
+    t_span = np.linspace(t0, tf, 100)
+
+    n_proc = 12
+
+    with Pool(n_proc) as pool:
+        args = list(zip(initial_states, [t_span]*len(initial_states)))
+        res = pool.map(solve_ivp_active_pool, args)
+
+    res_array = np.stack(res, axis=0) # shape (N_bubbles, 4, len(t_span))
+
+    if plot_path:
+        plt.sca(ax=this_ax)
+        plt.scatter(res_array[:, 0].T, res_array[:, 1].T, res_array[:, 2].T, color=color,linewidths=0)
+        plt.axis('equal')
+        plt.xlim(-2, 2)
+        plt.ylim(-2, 2)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        # plt.zlabel('z')
+        plt.show()
+
+    return res_array
