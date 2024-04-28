@@ -5,7 +5,7 @@ from scipy.integrate import solve_ivp
 from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
-R, gravity, Fr = 1.99, True, 2
+R, gravity, Fr = 2, True, 0.5
 
 path = 'velocity_results/alpha1.4_2D_'
 
