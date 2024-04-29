@@ -36,7 +36,7 @@ def move_to_subfoler(parent_dir, target, N_realisation):
 
 target = 'frame'
 model = '_bounce'
-N_realisation = 3
+N_realisation = 17
 
 frame_folder = 'influx_random_sims_3D_duo/temp' 
 output_path = frame_folder + '/output_' + target +'_realisation_' + str(N_realisation)+ model + '.mp4'
