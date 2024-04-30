@@ -5,12 +5,12 @@ import scipy as sp
 import matplotlib.colors as mcolors
 
 # load geometry files
-path = 'velocity_results/alpha1.4_2D_'
+path = 'velocity_results/alpha08_2D_'
 
 geometry = np.load(path + 'geometry.npy', allow_pickle=True)
 x_core, y_core, y_core_lower, x_ring, y_ring = geometry.T
 
-donuts = np.load('plotting_donuts/alpha1.4_3D_core.npy', allow_pickle=True)
+donuts = np.load('plotting_donuts/alpha08_3D_core.npy', allow_pickle=True)
 cross_section_x, cross_section_y, cross_section_z = donuts.T
 
 '''

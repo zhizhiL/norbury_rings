@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 R, gravity, Fr = 2, True, 0.5
 
-path = 'velocity_results/alpha1.4_2D_'
+path = 'velocity_results/alpha08_2D_'
 
 x_grid = np.load(path + 'x.npy')
 r_grid = np.load(path + 'y.npy')
